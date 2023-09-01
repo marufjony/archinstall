@@ -1,6 +1,3 @@
-# Chroot into the new system
-arch-chroot /mnt
-
 # Set the hostname
 echo "$hostname" > /etc/hostname
 
