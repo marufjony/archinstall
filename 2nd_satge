@@ -28,6 +28,3 @@ pacman -S grub efibootmgr os-prober networkmanager vim sudo
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Exit chroot and unmount partitions
-exit
-umount -R /mnt
