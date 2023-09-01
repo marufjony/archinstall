@@ -1,0 +1,63 @@
+# Chroot into the new system
+arch-chroot /mnt
+
+# Set the hostname
+echo "$hostname" > /etc/hostname
+
+# Set the system clock
+ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
+hwclock --systohc
+
+# Localization
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+locale-gen
+
+# Network configuration (you can modify this based on your needs)
+echo "127.0.0.1    localhost" >> /etc/hosts
+echo "::1          localhost" >> /etc/hosts
+echo "127.0.1.1    $hostname.localdomain $hostname" >> /etc/hosts
+
+# Set the root password
+echo "Setting root password..."
+passwd
+
+# Create a new user
+useradd -m -g users -G wheel $username
+
+# Check if the user was created successfully
+if [ $? -eq 0 ]; then
+    echo "User '$username' created successfully."
+else
+    echo "Failed to create user '$username'. Exiting."
+    exit 1
+fi
+
+
+# Set a password for the user
+echo "Setting password for $username..."
+passwd "$username"
+
+# Grant sudo access
+echo "Granting sudo access to $username..."
+echo "$username ALL=(ALL) ALL" | sudo tee -a /etc/sudoers.d/"$username"
+
+# Check if sudo access was granted successfully
+if [ $? -eq 0 ]; then
+    echo "Sudo access granted to '$username'."
+else
+    echo "Failed to grant sudo access to '$username'. Please add manually."
+fi
+
+
+# Install and configure bootloader
+
+# First necessary packages installation:
+pacman -S grub efibootmgr osprober networkmanger vim sudo
+
+# GRUB Installation and configuring:
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Exit chroot and unmount partitions
+exit
+umount -R /mnt
