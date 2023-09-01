@@ -1,4 +1,5 @@
 # Set the hostname
+read -p "Enter the hostname: " hostname
 echo "$hostname" > /etc/hostname
 
 # Set the system clock
@@ -21,7 +22,7 @@ passwd
 # Install and configure bootloader
 
 # First necessary packages installation:
-pacman -S grub efibootmgr osprober networkmanger vim sudo
+pacman -S grub efibootmgr os-prober networkmanager vim sudo
 
 # GRUB Installation and configuring:
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
