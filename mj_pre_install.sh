@@ -17,10 +17,6 @@ if [ "$user_password" != "$user_password_confirm" ]; then
 fi
 
 # Partitioning
-# You can include your partitioning commands here, similar to what you provided earlier.
-
-# Formatting and mounting partitions
-#!/bin/bash
 
 # Prompt the user for the root partition device (e.g., /dev/sdXY).
 read -p "Enter the root partition device (e.g., /dev/sdXY): " ROOT_PARTITION
@@ -35,15 +31,6 @@ mkfs.ext4 "$ROOT_PARTITION"
 # Mount the root partition to /mnt.
 echo "Mounting root partition to /mnt..."
 mount "$ROOT_PARTITION" /mnt
-
-# Prompt for the EFI partition device and mount point
-read -p "Enter the EFI partition device (e.g., /dev/sda1): " EFI_PARTITION
-read -p "Enter the mount point for the EFI partition (e.g., /mnt/efi): " EFI_MOUNT_POINT
-
-# Create an EFI mount point and mount the EFI partition.
-echo "Creating EFI mount point and mounting EFI partition..."
-mkdir "$EFI_MOUNT_POINT"
-mount "$EFI_PARTITION" "$EFI_MOUNT_POINT"
 
 # Create swap on the specified partition.
 echo "Setting up swap partition..."
