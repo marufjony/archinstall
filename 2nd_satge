@@ -22,4 +22,4 @@ passwd
 
 
 # First necessary packages installation:
-pacman -S grub efibootmgr os-prober networkmanager nvida nvidia-lts nvidia-utils bluez bluez-utils vim dosfstools ntfs-3g sudo
+pacman -S grub efibootmgr os-prober networkmanager nvidia nvidia-lts nvidia-utils bluez bluez-utils vim dosfstools ntfs-3g sudo
